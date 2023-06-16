@@ -36,6 +36,25 @@ void	ps_copy_to_lists(t_ps *list, char **av)
 	sort_the_nums_to_small(&list->stack_a);
 }
 
+static int empty_str(char **av)
+{
+	int i;
+	int j;
+
+	i = 1;
+	j = 0;
+	while (av[i])
+	{
+		j = 0;
+		while (av[i][j] == ' ')
+			j++;
+		if(av[i][j] == '\0')
+			return (write(2, "Error\n", 6), 0);
+		i++;
+	}
+	return (1);
+}
+
 static int	supp(int ac, char **av, t_ps *list)
 {
 	if (!ps_arg_check(ac, av) || !ps_dub_check(ac, av))
@@ -103,6 +122,6 @@ void	check_and_sort(t_ps *lst)
 
 int	main(int ac, char **av)
 {
-	if (!ps_main(ac, av))
+	if (!empty_str(av) || !ps_main(ac, av))
 		return (0);
 }
